@@ -2,7 +2,6 @@
 
 Tipping for Telegram with Viacoin
 
-![Logo](https://raw.githubusercontent.com/abrkn/tipmebch/master/logo.png)
 
 ## Warning
 
