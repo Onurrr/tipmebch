@@ -1,23 +1,22 @@
 {
-  "name": "tipmebch",
+  "name": "tipmevia",
   "version": "1.0.9",
-  "description": "Tipping for Telegram with BCH",
+  "description": "Tipping for Telegram with VIA",
   "scripts": {
     "watch": "nodemon -x 'DEBUG=* npm start'",
     "start": "node -r panik index.js"
   },
   "keywords": [
-    "bitcoin",
-    "bitcoin cash",
-    "bch"
+    "viacoin",
+    "via"
   ],
   "author": "Andreas Brekken <andreas@brekken.com>",
   "license": "MIT",
   "dependencies": {
     "bignumber.js": "6.0.0",
-    "bitcoincashjs": "0.1.10",
     "bluebird": "3.5.1",
     "debug": "3.1.0",
+    "dotenv": "^5.0.1",
     "lodash": "4.17.5",
     "numeral": "2.0.6",
     "p-memoize": "1.0.0",
@@ -27,7 +26,8 @@
     "redlock": "3.1.1",
     "shortid": "2.2.8",
     "superagent": "3.8.2",
-    "telegraf": "3.18.0"
+    "telegraf": "3.18.0",
+    "viacore-lib": "^0.14.1"
   },
   "main": "index.js",
   "devDependencies": {

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const bch = require('bitcoincashjs');
+const bch = require('viacore-lib');
 const numeral = require('numeral');
 const qr = require('qr-image');
 const BigNumber = require('bignumber.js');
@@ -59,7 +59,7 @@ exports.extractUserDiscordIdFromTag = _ => {
   return match[1];
 };
 
-const BITCOIN_BASE58_ADDRESS_REGEX = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
+const BITCOIN_BASE58_ADDRESS_REGEX = /^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
 
 exports.internalBchAddressToStandard = (address, withPrefix = false) => {
   assert(address.match(BITCOIN_BASE58_ADDRESS_REGEX));

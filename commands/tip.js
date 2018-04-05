@@ -20,7 +20,7 @@ module.exports = async ({
 }) => {
   if (params.length !== 2) {
     await reply(
-      `I don't understand this command. I expected "/tipbch 0.01 @username" or "/tipbch $1 @username"`
+      `I don't understand this command. I expected "/tip 0.01 @username" or "/tip $1 @username"`
     );
     await ctx.maybeReplyFromStickerSet('confused');
     return;
@@ -33,7 +33,7 @@ module.exports = async ({
   if (!toUserMatch) {
     console.warn(`Invalid username format for ${toUserRaw}`);
     await reply(
-      `That username format is invalid. I'm expecting /tipbch $1 @SomeUserName`
+      `That username format is invalid. I'm expecting /tip $1 @SomeUserName`
     );
     await ctx.maybeReplyFromStickerSet('confused');
     return;
@@ -48,7 +48,7 @@ module.exports = async ({
 
   if (!bchAmount) {
     await reply(
-      `I don't understand the amount. I expected "/tipbch 0.01 @username" or "/tipbch $1 @username"`
+      `I don't understand the amount. I expected "/tip 0.01 @username" or "/tip $1 @username"`
     );
     await ctx.maybeReplyFromStickerSet('confused');
     return;

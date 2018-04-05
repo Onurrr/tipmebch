@@ -1,4 +1,4 @@
-exports.tipbch = require('./tip');
+exports.tip = require('./tip');
 exports.balance = require('./balance');
 exports.balancereport = require('./balanceReport');
 exports.deposit = require('./deposit');

@@ -57,7 +57,7 @@ module.exports = async ({
     actualAmount = result.amount;
 
     const amountText = await formatBchWithUsd(actualAmount);
-    const url = `https://explorer.bitcoin.com/bch/tx/${txid}`;
+    const url = `https://explorer.viacoin.org/tx/${txid}`;
 
     await reply(`You withdrew ${amountText}: ${url}`);
   } catch (e) {

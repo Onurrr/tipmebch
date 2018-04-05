@@ -21,7 +21,7 @@ const MIN_WITHDRAW_AMOUNT = 0.0001;
 
 const fetchCoinmarketcap = async coin => {
   const { body } = await superagent(
-    'https://api.coinmarketcap.com/v1/ticker/?limit=10'
+    'https://api.coinmarketcap.com/v1/ticker/viacoin/'
   );
   const [item] = body.filter(_ => _.id === coin);
   assert(item, `${coin} not found`);
@@ -32,14 +32,14 @@ const memFetchCoinmarketcap = pMemoize(fetchCoinmarketcap, { maxAge: 10e3 });
 
 exports.fetchBchAddressBalance = async address => {
   const { body } = await superagent(
-    `https://blockdozer.com/insight-api/addr/${address}/?noTxList=1`
+    `https://explorer.viacoin.org/api/addr/${address}/?noTxList=1`
   );
   const { balance } = body;
   return balance;
 };
 
 const bchToUsd = async amount => {
-  const usdRate = (await memFetchCoinmarketcap('bitcoin-cash')).price_usd;
+  const usdRate = (await memFetchCoinmarketcap('viacoin')).price_usd;
 
   const asUsd = n(amount)
     .times(usdRate)
@@ -49,7 +49,7 @@ const bchToUsd = async amount => {
 };
 
 const usdToBch = async amount => {
-  const usdRate = (await memFetchCoinmarketcap('bitcoin-cash')).price_usd;
+  const usdRate = (await memFetchCoinmarketcap('viacoin')).price_usd;
   return +parseFloat(n(amount).div(usdRate)).toFixed(8);
 };
 

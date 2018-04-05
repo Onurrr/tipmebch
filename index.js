@@ -10,6 +10,7 @@ const { printErrorAndExit } = require('panik');
 const createIntro = require('./intro');
 const createZombie = require('./zombie');
 const { maybeReplyFromStickerSet } = require('./utils');
+require('dotenv').config()
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);

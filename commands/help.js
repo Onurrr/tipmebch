@@ -7,8 +7,8 @@ module.exports = async ({ ctx, fetchRpc, userId, isPm, reply }) => {
 
   await reply(
     [
-      '/tipbch $1.23 - Send tip',
-      '/tipbch 0.0001 - Send tip (BCH)',
+      '/tip $1.23 - Send tip',
+      '/tip 0.0001 - Send tip (VIA)',
       '/balance - Show your balance',
       '/deposit - Show your deposit address (PM)',
       '/withdraw <address> [<bch amount>|$<usd amount>|all> - Withdraw funds',
