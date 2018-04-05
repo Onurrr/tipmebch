@@ -1,6 +1,6 @@
-# tipmebch
+# tipmevia
 
-Tipping for Telegram with Bitcoin
+Tipping for Telegram with Viacoin
 
 ![Logo](https://raw.githubusercontent.com/abrkn/tipmebch/master/logo.png)
 
@@ -23,7 +23,7 @@ Define the environment variables:
 export TELEGRAM_BOT_TOKEN=496343161:yoursecret
 export BITCOIND_URL=http://rpcuser:rpcpassword@localhost:8333
 export STAFF_USER_ID=403107081
-export TELEGRAM_BOT_USERNAME=TipMeBchBot
+export TELEGRAM_BOT_USERNAME=TipMeViaBot
 export DEFAULT_STICKER_SET=pepe
 export REDIS_URL=redis://localhost
 ```
