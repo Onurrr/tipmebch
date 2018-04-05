@@ -1,5 +1,5 @@
-const debug = require('debug')('tipmebch');
-const { formatBchWithUsd, transfer } = require('./apis');
+const debug = require('debug')('tipmevia');
+const { formatViaWithUsd, transfer } = require('./apis');
 
 module.exports = function createIntro({
   redisClient,
@@ -11,20 +11,20 @@ module.exports = function createIntro({
     const {
       bitcoinAccountId,
       chatId,
-      bchAmount,
+      viaAmount,
       receiverUsername,
       senderUsername,
     } = unclaimed;
 
     debug('Unclaimed %O', unclaimed);
 
-    await transfer(bitcoinAccountId, message.from.id.toString(), bchAmount, {
+    await transfer(bitcoinAccountId, message.from.id.toString(), viaAmount, {
       fetchRpc,
       lockBitcoind,
       redisClient,
     });
 
-    const amountText = await formatBchWithUsd(bchAmount);
+    const amountText = await formatViaWithUsd(viaAmount);
 
     try {
       await ctx.telegram.sendMessage(

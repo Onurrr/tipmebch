@@ -1,10 +1,10 @@
 const {
-  formatBchWithUsd,
+  formatViaWithUsd,
   formatConfirmedAndUnconfirmedBalances,
   getBalanceForUser,
   getBalanceForAccount,
 } = require('../apis');
-const { formatBch, formatUsd, n } = require('../utils');
+const { formatVia, formatUsd, n } = require('../utils');
 
 module.exports = async ({
   recipient,

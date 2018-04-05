@@ -1,8 +1,8 @@
 const {
-  formatBchWithUsd,
-  parseBchOrUsdAmount,
+  formatViaWithUsd,
+  parseViaOrUsdAmount,
   withdraw,
-  bchToUsd,
+  viaToUsd,
   getBalanceForUser,
 } = require('../apis');
 const { BalanceWouldBecomeNegativeError } = require('../errors');
@@ -25,7 +25,7 @@ module.exports = async ({
   }
 
   if (params.length !== 2) {
-    await reply(`I don't understand that. /withdraw <address> <bch amount>`);
+    await reply(`I don't understand that. /withdraw <address> <via amount>`);
     return;
   }
 
@@ -35,11 +35,11 @@ module.exports = async ({
 
   const theirAmount = isWithdrawAll
     ? await getBalanceForUser(userId, { minConf: 1, fetchRpc })
-    : await parseBchOrUsdAmount(amountRaw);
+    : await parseViaOrUsdAmount(amountRaw);
 
   if (!theirAmount) {
     await reply(
-      `I don't understand that amount. Tell me the amount of BCH. /withdraw <address> <0.0001>`
+      `I don't understand that amount. Tell me the amount of VIA. /withdraw <address> <0.0001>`
     );
     return;
   }
@@ -56,7 +56,7 @@ module.exports = async ({
 
     actualAmount = result.amount;
 
-    const amountText = await formatBchWithUsd(actualAmount);
+    const amountText = await formatViaWithUsd(actualAmount);
     const url = `https://explorer.viacoin.org/tx/${txid}`;
 
     await reply(`You withdrew ${amountText}: ${url}`);
@@ -70,10 +70,10 @@ module.exports = async ({
     }
   }
 
-  const usdAmount = await bchToUsd(actualAmount);
+  const usdAmount = await viaToUsd(actualAmount);
 
   await Promise.all([
-    redisClient.incrbyfloatAsync('stats.withdrawn.bch', actualAmount),
+    redisClient.incrbyfloatAsync('stats.withdrawn.via', actualAmount),
     redisClient.incrbyfloatAsync('stats.withdrawn.usd', usdAmount),
     redisClient.incrAsync('stats.withdrawn.count'),
   ]);

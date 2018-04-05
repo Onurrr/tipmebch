@@ -1,6 +1,6 @@
 const assert = require('assert');
-const { formatBchWithUsd, transfer } = require('../apis');
-const debug = require('debug')('tipmebch');
+const { formatViaWithUsd, transfer } = require('../apis');
+const debug = require('debug')('tipmevia');
 
 module.exports = async ({
   ctx,
@@ -38,7 +38,7 @@ module.exports = async ({
   const {
     senderUserId,
     chatId,
-    bchAmount,
+    viaAmount,
     receiverUsername,
     senderUsername,
   } = unclaimed;
@@ -68,7 +68,7 @@ module.exports = async ({
   const actualAmount = await transfer(
     `telegram-unclaimed-${unclaimedId}`,
     senderUserId.toString(),
-    bchAmount,
+    viaAmount,
     {
       fetchRpc,
       lockBitcoind,
@@ -76,7 +76,7 @@ module.exports = async ({
     }
   );
 
-  const amountText = await formatBchWithUsd(actualAmount);
+  const amountText = await formatViaWithUsd(actualAmount);
 
   try {
     await ctx.telegram.sendMessage(

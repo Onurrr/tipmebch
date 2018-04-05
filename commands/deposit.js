@@ -1,8 +1,8 @@
 const assert = require('assert');
-const debug = require('debug')('tipmebch');
+const debug = require('debug')('tipmevia');
 const {
   createQrCode,
-  internalBchAddressToStandard,
+  internalViaAddressToStandard,
   getAddressForUser,
 } = require('../utils');
 
@@ -21,7 +21,7 @@ module.exports = async ({ ctx, fetchRpc, userId, isPm, reply }) => {
 
   assert(legacyAddress.match(/^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/));
 
-  const address = internalBchAddressToStandard(legacyAddress, true);
+  const address = internalViaAddressToStandard(legacyAddress, true);
   const qr = await createQrCode(address);
 
   console.log(typeof qr, Buffer.isBuffer(qr));
@@ -34,5 +34,5 @@ module.exports = async ({ ctx, fetchRpc, userId, isPm, reply }) => {
     },
   ]);
 
-  await ctx.reply(`To deposit Bitcoin (BCH), send to: ${address}`);
+  await ctx.reply(`To deposit Viacoin (VIA), send to: ${address}`);
 };

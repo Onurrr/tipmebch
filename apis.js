@@ -2,7 +2,7 @@ const shortid = require('shortid');
 const {
   isValidTelegramUserIdFormat,
   getUserAccount,
-  bchAddressToInternal,
+  viaAddressToInternal,
 } = require('./utils');
 
 const { BalanceWouldBecomeNegativeError } = require('./errors');
@@ -12,7 +12,7 @@ const superagent = require('superagent');
 const pMemoize = require('p-memoize');
 const {
   n,
-  formatBch,
+  formatVia,
   formatUsd,
   hasTooManyDecimalsForSats,
 } = require('./utils');
@@ -30,7 +30,7 @@ const fetchCoinmarketcap = async coin => {
 
 const memFetchCoinmarketcap = pMemoize(fetchCoinmarketcap, { maxAge: 10e3 });
 
-exports.fetchBchAddressBalance = async address => {
+exports.fetchViaAddressBalance = async address => {
   const { body } = await superagent(
     `https://explorer.viacoin.org/api/addr/${address}/?noTxList=1`
   );
@@ -38,7 +38,7 @@ exports.fetchBchAddressBalance = async address => {
   return balance;
 };
 
-const bchToUsd = async amount => {
+const viaToUsd = async amount => {
   const usdRate = (await memFetchCoinmarketcap('viacoin')).price_usd;
 
   const asUsd = n(amount)
@@ -48,15 +48,15 @@ const bchToUsd = async amount => {
   return asUsd;
 };
 
-const usdToBch = async amount => {
+const usdToVia = async amount => {
   const usdRate = (await memFetchCoinmarketcap('viacoin')).price_usd;
   return +parseFloat(n(amount).div(usdRate)).toFixed(8);
 };
 
-const formatBchWithUsd = async amount => {
-  const amountAsUsd = await bchToUsd(amount);
+const formatViaWithUsd = async amount => {
+  const amountAsUsd = await viaToUsd(amount);
 
-  return `${formatBch(amount)} (${formatUsd(amountAsUsd)})`;
+  return `${formatVia(amount)} (${formatUsd(amountAsUsd)})`;
 };
 
 exports.formatConfirmedAndUnconfirmedBalances = async (
@@ -67,19 +67,19 @@ exports.formatConfirmedAndUnconfirmedBalances = async (
     .minus(confirmed)
     .toNumber();
 
-  const confirmedText = await formatBchWithUsd(confirmed);
+  const confirmedText = await formatViaWithUsd(confirmed);
 
   const parts = [confirmedText];
 
   if (pending > 0) {
-    const formatted = await formatBchWithUsd(pending);
+    const formatted = await formatViaWithUsd(pending);
     parts.push(`. Pending deposits: ${formatted}`);
   }
 
   return parts.join('');
 };
 
-exports.parseBchOrUsdAmount = async value => {
+exports.parseViaOrUsdAmount = async value => {
   assert.equal(typeof value, 'string');
 
   const match = value.match(/^(\$?)([0-9\.]+)$/);
@@ -90,19 +90,19 @@ exports.parseBchOrUsdAmount = async value => {
 
   const [, symbol, amount] = match;
 
-  let bchAmount;
+  let viaAmount;
 
   if (symbol === '$') {
-    bchAmount = await usdToBch(amount);
+    viaAmount = await usdToVia(amount);
   } else {
-    bchAmount = +amount;
+    viaAmount = +amount;
   }
 
-  if (n(bchAmount).decimalPlaces() > 8) {
-    throw new Error(`Too many decimals in ${bchAmount}`);
+  if (n(viaAmount).decimalPlaces() > 8) {
+    throw new Error(`Too many decimals in ${viaAmount}`);
   }
 
-  return bchAmount;
+  return viaAmount;
 };
 
 const getBalanceForAccount = async (accountId, { fetchRpc, minConf } = {}) => {
@@ -218,7 +218,7 @@ const withdraw = async (
 
     const txid = await fetchRpc('sendfrom', [
       getUserAccount(fromUserId),
-      bchAddressToInternal(address),
+      viaAddressToInternal(address),
       amountN.toFixed(8),
     ]);
     assert(txid, 'Could not withdraw funds');
@@ -230,8 +230,8 @@ const withdraw = async (
 };
 
 exports.fetchCoinmarketcap = fetchCoinmarketcap;
-exports.bchToUsd = bchToUsd;
-exports.formatBchWithUsd = formatBchWithUsd;
+exports.viaToUsd = viaToUsd;
+exports.formatViaWithUsd = formatViaWithUsd;
 exports.getBalanceForAccount = getBalanceForAccount;
 exports.getBalanceForUser = getBalanceForUser;
 

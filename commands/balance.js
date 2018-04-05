@@ -1,5 +1,5 @@
 const { formatConfirmedAndUnconfirmedBalances } = require('../apis');
-const { getBalanceForUser, bchToUsd } = require('../apis');
+const { getBalanceForUser, viaToUsd } = require('../apis');
 const { n } = require('../utils');
 const stickers = require('../stickers');
 const { sample, findLast } = require('lodash');
@@ -41,7 +41,7 @@ module.exports = async ({ ctx, userId, fetchRpc }) => {
     unconfirmed
   );
 
-  const asUsd = await bchToUsd(
+  const asUsd = await viaToUsd(
     n(confirmed)
       .plus(unconfirmed)
       .toNumber()

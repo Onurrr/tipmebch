@@ -1,4 +1,4 @@
-const debug = require('debug')('tipmebch');
+const debug = require('debug')('tipmevia');
 
 module.exports = ({ timeout = 60 * 60 } = {}) => {
   let timer;

@@ -1,12 +1,12 @@
 const shortid = require('shortid');
 const {
-  formatBchWithUsd,
+  formatViaWithUsd,
   transfer,
-  bchToUsd,
-  parseBchOrUsdAmount,
+  viaToUsd,
+  parseViaOrUsdAmount,
 } = require('../apis');
 const { BalanceWouldBecomeNegativeError } = require('../errors');
-const debug = require('debug')('tipmebch');
+const debug = require('debug')('tipmevia');
 
 module.exports = async ({
   ctx,
@@ -44,9 +44,9 @@ module.exports = async ({
   const toUserId = await redisClient.getAsync(`telegram.user.${toUsername}`);
   const userIsKnown = !!toUserId;
 
-  const bchAmount = await parseBchOrUsdAmount(amountRaw);
+  const viaAmount = await parseViaOrUsdAmount(amountRaw);
 
-  if (!bchAmount) {
+  if (!viaAmount) {
     await reply(
       `I don't understand the amount. I expected "/tip 0.01 @username" or "/tip $1 @username"`
     );
@@ -72,7 +72,7 @@ module.exports = async ({
       bitcoinAccountId,
       senderUserId: +userId,
       chatId: ctx.chat.id,
-      bchAmount,
+      viaAmount,
       receiverUsername: toUsername,
       senderUsername: username,
     };
@@ -92,7 +92,7 @@ module.exports = async ({
   }
 
   try {
-    actualAmount = await transfer(userId, bitcoinAccountId, bchAmount, {
+    actualAmount = await transfer(userId, bitcoinAccountId, viaAmount, {
       fetchRpc,
       lockBitcoind,
       redisClient,
@@ -107,7 +107,7 @@ module.exports = async ({
     }
   }
 
-  const amountText = await formatBchWithUsd(actualAmount);
+  const amountText = await formatViaWithUsd(actualAmount);
 
   await reply(`You tipped ${amountText} to ${toUserRaw}!`);
 
@@ -117,10 +117,10 @@ module.exports = async ({
     );
   }
 
-  const usdAmount = await bchToUsd(actualAmount);
+  const usdAmount = await viaToUsd(actualAmount);
 
   await Promise.all([
-    redisClient.incrbyfloatAsync('stats.tipped.bch', actualAmount),
+    redisClient.incrbyfloatAsync('stats.tipped.via', actualAmount),
     redisClient.incrbyfloatAsync('stats.tipped.usd', usdAmount),
     redisClient.incrAsync('stats.tipped.count'),
   ]);

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const bch = require('viacore-lib');
+const via = require('viacore-lib');
 const numeral = require('numeral');
 const qr = require('qr-image');
 const BigNumber = require('bignumber.js');
@@ -13,12 +13,12 @@ exports.formatNumber = (value, format) => numeral(value).format(format);
 const printError = (...args) => console.error(...args);
 exports.printError = printError;
 
-exports.formatBch = _ => {
+exports.formatVia = _ => {
   if (+_ < 1) {
     return _.toString();
   }
 
-  return `${numeral(_.toString()).format('0,0[.00000000]')} BCH`;
+  return `${numeral(_.toString()).format('0,0[.00000000]')} VIA`;
 };
 
 exports.formatUsd = _ => {
@@ -61,25 +61,25 @@ exports.extractUserDiscordIdFromTag = _ => {
 
 const BITCOIN_BASE58_ADDRESS_REGEX = /^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
 
-exports.internalBchAddressToStandard = (address, withPrefix = false) => {
+exports.internalViaAddressToStandard = (address, withPrefix = false) => {
   assert(address.match(BITCOIN_BASE58_ADDRESS_REGEX));
 
-  const bchAddress = new bch.Address(address);
-  return bchAddress.toString(bch.Address.CashAddrFormat);
+  const viaAddress = new via.Address(address);
+  return viaAddress.toString(via.Address.CashAddrFormat);
 };
 
-exports.bchAddressToInternal = address => {
+exports.viaAddressToInternal = address => {
   if (address.match(BITCOIN_BASE58_ADDRESS_REGEX)) {
     return address;
   }
 
-  const bchAddress = bch.Address.fromString(
+  const viaAddress = via.Address.fromString(
     address,
     'livenet',
     'pubkeyhash',
-    bch.Address.CashAddrFormat
+    via.Address.CashAddrFormat
   );
-  return bchAddress.toString(bch.Address.LegacyFormat);
+  return viaAddress.toString(via.Address.LegacyFormat);
 };
 
 const getUserAccount = id => `telegram-${id}`;
