@@ -59,17 +59,17 @@ exports.extractUserDiscordIdFromTag = _ => {
   return match[1];
 };
 
-const BITCOIN_BASE58_ADDRESS_REGEX = /^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
+const VIACOIN_BASE58_ADDRESS_REGEX = /^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/;
 
 exports.internalViaAddressToStandard = (address, withPrefix = false) => {
-  assert(address.match(BITCOIN_BASE58_ADDRESS_REGEX));
+  assert(address.match(VIACOIN_BASE58_ADDRESS_REGEX));
 
   const viaAddress = new via.Address(address);
   return viaAddress.toString(via.Address.CashAddrFormat);
 };
 
 exports.viaAddressToInternal = address => {
-  if (address.match(BITCOIN_BASE58_ADDRESS_REGEX)) {
+  if (address.match(VIACOIN_BASE58_ADDRESS_REGEX)) {
     return address;
   }
 

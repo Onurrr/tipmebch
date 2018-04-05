@@ -16,7 +16,7 @@ module.exports = async ({
   redisClient,
   userId,
   fetchRpc,
-  lockBitcoind,
+  lockViacoind,
 }) => {
   if (params.length !== 2) {
     await reply(
@@ -57,19 +57,19 @@ module.exports = async ({
   debug('User is known? %s', userIsKnown);
 
   let actualAmount;
-  let bitcoinAccountId;
+  let viacoinAccountId;
   let unclaimedId;
 
   if (userIsKnown) {
-    bitcoinAccountId = toUserId;
+    viacoinAccountId = toUserId;
   } else {
     unclaimedId = shortid.generate();
-    bitcoinAccountId = `telegram-unclaimed-${unclaimedId}`;
+    viacoinAccountId = `telegram-unclaimed-${unclaimedId}`;
 
     const unclaimedKey = `telegram.unclaimed.${unclaimedId}`;
 
     const unclaimed = {
-      bitcoinAccountId,
+      viacoinAccountId,
       senderUserId: +userId,
       chatId: ctx.chat.id,
       viaAmount,
@@ -92,9 +92,9 @@ module.exports = async ({
   }
 
   try {
-    actualAmount = await transfer(userId, bitcoinAccountId, viaAmount, {
+    actualAmount = await transfer(userId, viacoinAccountId, viaAmount, {
       fetchRpc,
-      lockBitcoind,
+      lockViacoind,
       redisClient,
     });
   } catch (e) {

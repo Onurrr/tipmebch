@@ -4,12 +4,12 @@ const { formatViaWithUsd, transfer } = require('./apis');
 module.exports = function createIntro({
   redisClient,
   fetchRpc,
-  lockBitcoind,
+  lockViacoind,
   ctx,
 }) {
   const claim = async ({ unclaimed, message, ctx }) => {
     const {
-      bitcoinAccountId,
+      viacoinAccountId,
       chatId,
       viaAmount,
       receiverUsername,
@@ -18,9 +18,9 @@ module.exports = function createIntro({
 
     debug('Unclaimed %O', unclaimed);
 
-    await transfer(bitcoinAccountId, message.from.id.toString(), viaAmount, {
+    await transfer(viacoinAccountId, message.from.id.toString(), viaAmount, {
       fetchRpc,
-      lockBitcoind,
+      lockViacoind,
       redisClient,
     });
 

@@ -15,7 +15,7 @@ module.exports = async ({
   isPm,
   userId,
   fetchRpc,
-  lockBitcoind,
+  lockViacoind,
   redisClient,
   ctx,
 }) => {
@@ -49,7 +49,7 @@ module.exports = async ({
   try {
     const result = await withdraw(userId, address, theirAmount, {
       fetchRpc,
-      lockBitcoind,
+      lockViacoind,
     });
 
     const { txid } = result;
@@ -62,7 +62,7 @@ module.exports = async ({
     await reply(`You withdrew ${amountText}: ${url}`);
   } catch (e) {
     if (e instanceof BalanceWouldBecomeNegativeError) {
-      // await ctx.maybeReplyFromStickerSet('insufficient-balance');
+      await ctx.maybeReplyFromStickerSet('insufficient-balance');
       await ctx.reply(`Your balance would become negative...`);
       return;
     } else {

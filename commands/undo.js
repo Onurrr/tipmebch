@@ -11,7 +11,7 @@ module.exports = async ({
   redisClient,
   username,
   params,
-  lockBitcoind,
+  lockViacoind,
 }) => {
   if (params.length !== 1) {
     await reply(
@@ -71,7 +71,7 @@ module.exports = async ({
     viaAmount,
     {
       fetchRpc,
-      lockBitcoind,
+      lockViacoind,
       redisClient,
     }
   );

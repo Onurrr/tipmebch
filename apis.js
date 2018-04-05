@@ -125,13 +125,13 @@ const transfer = async (
   fromUserId,
   toUserId,
   amount,
-  { fetchRpc, lockBitcoind, redisClient }
+  { fetchRpc, lockViacoind, redisClient }
 ) => {
   assert.equal(typeof toUserId, 'string');
   assert.equal(typeof fromUserId, 'string');
   assert.notEqual(fromUserId, toUserId, 'Cannot send to self');
 
-  const lock = await lockBitcoind();
+  const lock = await lockVIacoind();
 
   try {
     const amountN = n(amount);
@@ -187,12 +187,12 @@ const withdraw = async (
   fromUserId,
   address,
   amount,
-  { fetchRpc, lockBitcoind }
+  { fetchRpc, lockViacoind }
 ) => {
   assert(isValidTelegramUserIdFormat(fromUserId));
   assert.equal(typeof address, 'string');
 
-  const lock = await lockBitcoind();
+  const lock = await lockViacoind();
 
   try {
     const amountN = n(amount);

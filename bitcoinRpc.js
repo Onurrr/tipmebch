@@ -2,19 +2,19 @@ const assert = require('assert');
 const superagent = require('superagent');
 const Redlock = require('redlock');
 
-const createBitcoinRpc = ({ redisClient, say, bitcoindUrl }) => {
+const createViacoinRpc = ({ redisClient, say, viacoindUrl }) => {
   assert(redisClient, 'redisClient is required');
-  assert(bitcoindUrl, 'bitcoindUrl is required');
+  assert(viacoindUrl, 'viacoindUrl is required');
 
   const redlock = new Redlock([redisClient]);
-  const lockBitcoind = () =>
-    redlock.lock(`locks.bitcoind.${bitcoindUrl}.lock`, 10e3);
+  const lockViacoind = () =>
+    redlock.lock(`locks.viacoind.${viacoindUrl}.lock`, 10e3);
 
   let fetchRpcCounter = 1;
 
   const fetchRpc = (method, params) =>
     superagent
-      .post(bitcoindUrl)
+      .post(viacoindUrl)
       .send({ id: (++fetchRpcCounter).toString(), method, params })
       .then(_ => {
         const { result, error } = _.body;
@@ -26,8 +26,8 @@ const createBitcoinRpc = ({ redisClient, say, bitcoindUrl }) => {
 
   return {
     fetchRpc,
-    lockBitcoind,
+    lockViacoind,
   };
 };
 
-module.exports = createBitcoinRpc;
+module.exports = createViacoinRpc;

@@ -1,7 +1,7 @@
 const bluebird = require('bluebird');
 const assert = require('assert');
 const Telegraf = require('telegraf');
-const createBitcoinRpc = require('./bitcoinRpc');
+const createViacoinRpc = require('./viacoinRpc');
 const commands = require('./commands');
 const { each } = require('lodash');
 const redis = require('redis');
@@ -16,7 +16,7 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 const {
-  BITCOIND_URL,
+  VIACOIND_URL,
   TELEGRAM_BOT_TOKEN,
   REDIS_URL = 'redis://localhost',
   NODE_ENV,
@@ -25,15 +25,15 @@ const {
 } = process.env;
 
 assert(REDIS_URL, 'REDIS_URL');
-assert(BITCOIND_URL, 'BITCOIND_URL');
+assert(VIACOIND_URL, 'VIACOIND_URL');
 assert(TELEGRAM_BOT_TOKEN, 'TELEGRAM_BOT_TOKEN');
 
 const redisClient = redis.createClient(REDIS_URL);
 
 const botUserId = TELEGRAM_BOT_TOKEN.split(/:/)[0];
 
-const { fetchRpc, lockBitcoind } = createBitcoinRpc({
-  bitcoindUrl: BITCOIND_URL,
+const { fetchRpc, lockViacoind } = createViacoinRpc({
+  viacoindUrl: VIACOIND_URL,
   redisClient,
 });
 
@@ -61,7 +61,7 @@ bot.use(async (ctx, next) => {
 
 bot.use(createZombie());
 
-bot.use(createIntro({ redisClient, fetchRpc, lockBitcoind }));
+bot.use(createIntro({ redisClient, fetchRpc, lockViacoind }));
 
 const handleCommandError = (ctx, error) => {
   console.error(`Unhandled error when processing message`);
@@ -89,7 +89,7 @@ const handleCommand = async (handler, ctx) => {
   return handler({
     ctx,
     fetchRpc,
-    lockBitcoind,
+    lockViacoind,
     userId: ctx.from.id.toString(),
     botUserId,
     username: ctx.from.username,
