@@ -19,7 +19,7 @@ module.exports = async ({ reply, redisClient, ctx }) => {
     redisClient.getAsync('stats.intros.count'),
   ]);
 
-  await ctx.maybeReplyFromStickerSet('stats');
+  // await ctx.maybeReplyFromStickerSet('stats');
 
   await reply(
     [

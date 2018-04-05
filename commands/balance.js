@@ -51,7 +51,7 @@ module.exports = async ({ ctx, userId, fetchRpc }) => {
 
   const stickerId = getBalanceSticker(ctx.stickerSet, asUsd);
 
-  if (stickerId) {
-    await ctx.replyWithSticker(stickerId);
-  }
+  // if (stickerId) {
+  //   await ctx.replyWithSticker(stickerId);
+  // }
 };

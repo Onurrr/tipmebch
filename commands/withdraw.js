@@ -62,7 +62,7 @@ module.exports = async ({
     await reply(`You withdrew ${amountText}: ${url}`);
   } catch (e) {
     if (e instanceof BalanceWouldBecomeNegativeError) {
-      await ctx.maybeReplyFromStickerSet('insufficient-balance');
+      // await ctx.maybeReplyFromStickerSet('insufficient-balance');
       await ctx.reply(`Your balance would become negative...`);
       return;
     } else {
