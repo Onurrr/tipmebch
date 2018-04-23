@@ -131,7 +131,7 @@ const transfer = async (
   assert.equal(typeof fromUserId, 'string');
   assert.notEqual(fromUserId, toUserId, 'Cannot send to self');
 
-  const lock = await lockVIacoind();
+  const lock = await lockViacoind();
 
   try {
     const amountN = n(amount);
