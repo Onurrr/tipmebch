@@ -76,7 +76,7 @@ exports.formatConfirmedAndUnconfirmedBalances = async (
     parts.push(`. Pending deposits: ${formatted}`);
   }
 
-  return parts.join('Via');
+  return parts.join('');
 };
 
 exports.parseViaOrUsdAmount = async value => {

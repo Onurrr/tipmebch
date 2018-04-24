@@ -15,7 +15,7 @@ exports.printError = printError;
 
 exports.formatVia = _ => {
   if (+_ < 1) {
-    return _.toString();
+    return _.toString()+" VIA"; 
   }
 
   return `${numeral(_.toString()).format('0,0[.00000000]')} VIA`;
