@@ -1,6 +1,6 @@
 {
   "name": "tipmevia",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Tipping for Telegram with VIA",
   "scripts": {
     "watch": "nodemon -x 'DEBUG=* npm start'",
