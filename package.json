@@ -35,12 +35,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abrkn/tipmebch.git"
+    "url": "git+https://github.com/Onurrr/tipmevia.git"
   },
   "bugs": {
-    "url": "https://github.com/abrkn/tipmebch/issues"
+    "url": "https://github.com/Onurrr/tipmevia/issues"
   },
-  "homepage": "https://github.com/abrkn/tipmebch#readme",
+  "homepage": "https://github.com/Onurrr/tipmevia#readme",
   "engines": {
     "node": ">=8.0.0"
   }

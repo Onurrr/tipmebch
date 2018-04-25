@@ -35,5 +35,6 @@ module.exports = async ({ ctx, fetchRpc, userId, isPm, reply }) => {
   ]);
 
   await ctx.reply(`To deposit Viacoin (VIA), send to:`);
-  await ctx.reply(`${address}`);
+
+  await ctx.reply(address);
 };
