@@ -19,7 +19,7 @@ module.exports = async ({ ctx, fetchRpc, userId, isPm, reply }) => {
     fetchRpc,
   });
 
-  assert(legacyAddress.match(/^[V][a-km-zA-HJ-NP-Z1-9]{25,34}$/));
+  assert(legacyAddress.match(/^[V][a-km-zA-HJ-NP-Z1-9]{27,34}$/));
 
   const address = internalViaAddressToStandard(legacyAddress, true);
   const qr = await createQrCode(address);
